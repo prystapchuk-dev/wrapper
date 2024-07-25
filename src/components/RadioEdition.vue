@@ -18,20 +18,11 @@ const props = defineProps({
 const editionCount = ref();
 
 
-const wrapperEdition = (e) => {
-    emit('wrapperEdition', e.target.value);
+const wrapperEdition = (edition) => {
+    emit('wrapperEdition', edition);
 }
 
-onMounted(() => {
-    props.editions.forEach(element => {
-        if(element.default === true) {
-            editionCount.value = element.count;        
-        }
-        return;
-    });
 
-      emit('wrapperEdition', editionCount);
-});
 
 function choiceClass(index) {
     if (index === 0) {
@@ -50,7 +41,7 @@ function choiceClass(index) {
         <p class="mt-1 text-sm leading text-gray-600">Кількість кольорів на фантику</p>
         <div class="flex flex-col items-start justify-start mt-4">
             <div v-for="(edition, index) in editions" :key="index" class="flex relative -mt-px">
-                <input v-model="editionCount" class="absolute top-1/2 left-3 transform -translate-y-1/2 w-4 h-4 z-20" :id="edition.count" type="radio" :value="edition.count" name="edition" :checked="edition.default" @change="wrapperEdition" />
+                <input v-model="editionCount" class="absolute top-1/2 left-3 transform -translate-y-1/2 w-4 h-4 z-20" :id="edition.count" type="radio" :value="edition.count" name="edition" :checked="edition.default" @change="wrapperEdition(edition)" />
                 <label :for="edition.count" :class="choiceClass(index)" class="flex justify-center items-start flex-col w-72 h-10 pl-10 border border-gray-300 cursor-pointer overflow-hidden hover:bg-gray-50/50">
                     <span class="text-sm font-medium">{{ edition.count.toLocaleString() }}</span>
                 </label>

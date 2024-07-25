@@ -7,13 +7,14 @@ import RadioEdition from './components/RadioEdition.vue';
 import ListDiscount from './components/ListDiscount.vue';
 
 
-import * as data from '/test.json';
+import * as data from '../test.json';
 
 
 const selectProduct = ref({});
-const countRadioColor = ref(3);
+const countRadioColor = ref(4);
 const percentDiscount = ref(5);
-const wrapperEdition = ref(20000);
+const wrapperEdition = ref();
+
 const wrapperFormats = [
   {
     "id": 1,
@@ -67,7 +68,7 @@ const dafaultWrapperEdition = wrapperEditions.filter((item) => {
 
 wrapperFormat.value = dafaultWrapperFormat[0];
 
-wrapperEdition.value = dafaultWrapperEdition[0].count;
+wrapperEdition.value = dafaultWrapperEdition[0];
 
 
 const handleSelect = (select) => {
@@ -218,16 +219,12 @@ const wrapperCost =
   };
 
 
+
+
 const forma = computed(() => {
-  const edition = wrapperEdition.value;
-  const format = wrapperFormat.value;
-  console.log(format.id);
 
-  const test1 = data["cost"][edition];
+return data.cost[wrapperFormat.value.id][wrapperEdition.value.count][countRadioColor.value];
 
-  const test2 = test1[format.id];
-
-  return test2;
 });
 
 
@@ -254,7 +251,7 @@ const forma = computed(() => {
           <h3 class="text-lg">{{ selectProduct.title }}</h3>
           <p>Кількість кольорів фантика: <span class="font-semibold">{{ countRadioColor }}</span></p>
           <p>Формат фантика: {{  wrapperFormat.title }}</p>
-          <p>Тираж: {{ wrapperEdition }}</p>
+          <p>Тираж: {{ wrapperEdition.count }}</p>
           <p>Знижка: {{ percentDiscount }}</p>
           <p>Вартість фантика: {{ forma }}</p>
         </div>
