@@ -11,7 +11,7 @@ import * as data from '../test.json';
 
 
 const selectProduct = ref({});
-const countRadioColor = ref(4);
+const countRadioColor = ref();
 const percentDiscount = ref(5);
 const wrapperEdition = ref();
 
@@ -54,6 +54,25 @@ const wrapperEditions = [
   }
 ];
 
+const colorCountsList = [
+  {
+    "count": 3,
+    "default": false
+  },
+  {
+    "count": 4,
+    "default": true
+  },
+  {
+    "count": 5,
+    "default": false
+  },
+  {
+    "count": 6,
+    "default": false
+  },
+];
+
 const wrapperFormat = ref({});
 
 
@@ -66,10 +85,15 @@ const dafaultWrapperEdition = wrapperEditions.filter((item) => {
   return item.default === true;
 });
 
+const dafaultWrapperCountColor = colorCountsList.filter((item) => {
+  return item.default === true;
+});
+
 wrapperFormat.value = dafaultWrapperFormat[0];
 
 wrapperEdition.value = dafaultWrapperEdition[0];
 
+countRadioColor.value = dafaultWrapperCountColor[0].count;
 
 const handleSelect = (select) => {
   selectProduct.value = select;
@@ -112,24 +136,7 @@ const productList = [
   },
 ];
 
-const colorCountsList = [
-  {
-    "count": 3,
-    "checked": false
-  },
-  {
-    "count": 4,
-    "checked": true
-  },
-  {
-    "count": 5,
-    "checked": false
-  },
-  {
-    "count": 6,
-    "checked": false
-  },
-];
+
 
 
 
@@ -223,12 +230,27 @@ const wrapperCost =
 
 const forma = computed(() => {
 
-return data.cost[wrapperFormat.value.id][wrapperEdition.value.count][countRadioColor.value];
+  return data.cost[wrapperFormat.value.id][wrapperEdition.value.count][countRadioColor.value];
+
+});
+
+const clishe = computed(() => {
+
+return data.cost[wrapperFormat.value.id]["clishe"][countRadioColor.value];
 
 });
 
 
 
+
+const averageCandyWaight = computed(() => {
+  const str = wrapperFormat.value.candy_waight + '';
+  const arrs = str.split('-', 2);
+
+  const sum = arrs.reduce((acc, arr) => acc + Number(arr), 0);
+  const length = arrs.length;
+  return sum / length;
+});
 </script>
 
 <template>
@@ -237,7 +259,7 @@ return data.cost[wrapperFormat.value.id][wrapperEdition.value.count][countRadioC
     <div class="flex items-center justify-between space-x-4">
       <div class="basis-1/2">
         <SelectProduct @select="handleSelect" :items="productList" />
-        <RadioCountColor @countColor="handleRadioColor" :colorCountsList="colorCountsList"/>
+        <RadioCountColor @countColor="handleRadioColor" :colorCountsList="colorCountsList" :defaultValue="4"/>
         <RadioFormat @wrapperFormat="handleWrapperFormat" :formatList="wrapperFormats"/>
         <RadioEdition @wrapperEdition="handleWrapperEdition" :editions="wrapperEditions" />
         <ListDiscount @percentDiscount="handlePercentDiscount" :percentList="discountPercentList"/>
@@ -254,6 +276,9 @@ return data.cost[wrapperFormat.value.id][wrapperEdition.value.count][countRadioC
           <p>Тираж: {{ wrapperEdition.count }}</p>
           <p>Знижка: {{ percentDiscount }}</p>
           <p>Вартість фантика: {{ forma }}</p>
+          <p>Вартість кліше: {{ clishe }}</p>
+          <p>Всього за фантик: {{ forma + clishe }}</p>
+          <p>Вага цукерки*: {{ averageCandyWaight }}г</p>
         </div>
       </div>
     </div>

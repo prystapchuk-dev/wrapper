@@ -1,16 +1,24 @@
 <script setup>
+import { onMounted } from 'vue';
 const emit = defineEmits(['countColor'])
 
 const props = defineProps({
     colorCountsList: {
         type: Array,
         required: true
+    },
+    defaultValue: {
+        type: Number,
+        required: false
     }
 });
 
 const countColor = (e) => {
     emit('countColor', e.target.value);
 }
+    
+   
+
 </script>
 
 <template>
@@ -20,7 +28,7 @@ const countColor = (e) => {
     <p class="mt-1 text-sm leading text-gray-600">Кількість кольорів на фантику</p>
     <div class="flex items-center justify-start mt-4 space-x-4">
         <div v-for="(item, index) in colorCountsList" :key="index">
-            <input class="hidden" :id="item.count" type="radio" :value="item.count" :checked="item.checked"  name="radio" @change="countColor">
+            <input class="hidden" :id="item.count" type="radio" :value="item.count" :checked="item.default"  name="radio" @change="countColor">
             <label :for="item.count" class="flex flex-col items-center justify-center w-16 h-10 p-4 rounded-md border border-gray-300 cursor-pointer hover:bg-gray-50/50">
                 <span class="text-sm font-medium uppercase">{{ item.count }}</span>
             </label>
