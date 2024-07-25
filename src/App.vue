@@ -251,6 +251,8 @@ const averageCandyWaight = computed(() => {
   const length = arrs.length;
   return sum / length;
 });
+
+
 </script>
 
 <template>
@@ -279,6 +281,7 @@ const averageCandyWaight = computed(() => {
           <p>Вартість кліше: {{ clishe }}</p>
           <p>Всього за фантик: {{ forma + clishe }}</p>
           <p>Вага цукерки*: {{ averageCandyWaight }}г</p>
+          <p>Буде запаковано, кг: {{ wrapperEdition.count / ( 1000 / averageCandyWaight) }}</p>
         </div>
       </div>
     </div>
