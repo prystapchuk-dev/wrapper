@@ -17,9 +17,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <fieldset>
-        <legend class="text-sm font-semibold leading-6 text-gray-900">Кількість кольорів</legend>
-        <p class="mt-1 text-sm leading text-gray-600">Кількість кольорів на фантику</p>
+    <fieldset class="mt-8">
+        <legend class="text-sm font-semibold leading-6 text-gray-900">Формат</legend>
+        <hr class="w-[30%]">
+        <p class="mt-1 text-sm leading text-gray-600">Оберіть розмір обгортки</p>
         <div class="flex items-center justify-start mt-4 space-x-4">
             <div v-for="(format, index) in formatList" :key="index">
                 <input class="hidden" :id="index" type="radio" :value="format" name="format" :checked="format.default" @change="wrapperFormat(format)">

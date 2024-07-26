@@ -36,9 +36,10 @@ function choiceClass(index) {
 </script>
 
 <template>
-   <fieldset>
-        <legend class="text-sm font-semibold leading-6 text-gray-900">Кількість кольорів</legend>
-        <p class="mt-1 text-sm leading text-gray-600">Кількість кольорів на фантику</p>
+   <fieldset class="mt-8">
+        <legend class="text-sm font-semibold leading-6 text-gray-900">Тираж</legend>
+        <hr class="w-[30%]">
+        <p class="mt-1 text-sm leading text-gray-600">Вкажіть необхідну кількість обгорток</p>
         <div class="flex flex-col items-start justify-start mt-4">
             <div v-for="(edition, index) in editions" :key="index" class="flex relative -mt-px">
                 <input v-model="editionCount" class="absolute top-1/2 left-3 transform -translate-y-1/2 w-4 h-4 z-20" :id="edition.count" type="radio" :value="edition.count" name="edition" :checked="edition.default" @change="wrapperEdition(edition)" />

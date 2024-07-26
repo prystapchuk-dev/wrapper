@@ -25,8 +25,9 @@ function selectItem(item) {
 </script>
 
 <template>
-    <legend class="text-sm font-semibold leading-6 text-gray-900">Кількість кольорів</legend>
-    <p class="mt-1 text-sm leading text-gray-600">Кількість кольорів на фантику</p>
+    <legend class="mt-8 text-sm font-semibold leading-6 text-gray-900">Знижка</legend>
+    <hr class="w-[30%]">
+    <p class="mt-1 text-sm leading text-gray-600">Оберіть % знижки</p>
     <div class="mt-2 relative w-20 h-10" >
         <input v-model="currentItem" type="text" class="text-2xl font-medium w-full h-full p-3 cursor-default rounded-md bg-white text-left to-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
             <span class="absolute top-1/2 right-8 transform -translate-y-1/2">

@@ -23,8 +23,9 @@ const countColor = (e) => {
 
 <template>
     
-   <fieldset>
+   <fieldset class="mt-8">
     <legend class="text-sm font-semibold leading-6 text-gray-900">Кількість кольорів</legend>
+    <hr class="w-[30%]">
     <p class="mt-1 text-sm leading text-gray-600">Кількість кольорів на фантику</p>
     <div class="flex items-center justify-start mt-4 space-x-4">
         <div v-for="(item, index) in colorCountsList" :key="index">

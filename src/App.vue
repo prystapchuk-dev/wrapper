@@ -12,7 +12,7 @@ import * as data from '../test.json';
 
 const selectProduct = ref({});
 const countRadioColor = ref();
-const percentDiscount = ref(5);
+const percentDiscount = ref();
 const wrapperEdition = ref();
 
 const wrapperFormats = [
@@ -123,16 +123,22 @@ const productList = [
     "price": 350 
   },
   {
-    "id": 1,
+    "id": 2,
     "title": "Цукерки \"Банан\"",
     "image": "https://gzpt.com.ua/content/images/46/600x600l80mc0/80480006278786.webp",
     "price": 350 
   },
   {
-    "id": 1,
+    "id": 3,
     "title": "Цукерки \"Груша\"",
     "image": "https://gzpt.com.ua/content/images/1/600x600l80mc0/96422728717613.webp",
     "price": 350 
+  },
+  {
+    "id": 4,
+    "title": "Цукерки \"Полум'яні\"",
+    "image": "https://gzpt.com.ua/content/images/40/1800x1800l80mc0/81712133041787.webp",
+    "price": 250 
   },
 ];
 
@@ -249,16 +255,48 @@ const averageCandyWaight = computed(() => {
 
   const sum = arrs.reduce((acc, arr) => acc + Number(arr), 0);
   const length = arrs.length;
+
   return sum / length;
 });
 
+const wellBePacked = computed(() => {
+  return wrapperEdition.value.count / (1000 / averageCandyWaight.value);
+});
+
+const finalProductPrice = computed(() => {
+  if (percentDiscount.value) {
+    return selectProduct.value.price * (1 - (percentDiscount.value / 100));
+  }
+
+  return selectProduct.value.price;
+});
+
+const priceWrapperWithClishe = computed(() => {
+  return forma.value + clishe.value;
+});
+
+const pricePerKilogram = computed(() => {
+  return ((wellBePacked.value * finalProductPrice.value) + priceWrapperWithClishe.value) / wellBePacked.value;
+});
+
+const priceOneCandy = computed(() => {
+  return pricePerKilogram.value / (1000 / averageCandyWaight.value);
+});
+
+const finalPrice = computed(() => {
+  return wellBePacked.value * pricePerKilogram.value.toFixed();
+});
+
+const candiesForOneCilogram = computed(() => {
+  return  1000 / averageCandyWaight.value;
+});
 
 </script>
 
 <template>
   <div class="container mx-auto pt-8 p-4">
     <h1 class="text-2xl">Калькулятор вартості брендування обгортки</h1>
-    <div class="flex items-center justify-between space-x-4">
+    <div class="flex justify-between space-x-4">
       <div class="basis-1/2">
         <SelectProduct @select="handleSelect" :items="productList" />
         <RadioCountColor @countColor="handleRadioColor" :colorCountsList="colorCountsList" :defaultValue="4"/>
@@ -267,21 +305,26 @@ const averageCandyWaight = computed(() => {
         <ListDiscount @percentDiscount="handlePercentDiscount" :percentList="discountPercentList"/>
       </div>
       <div class="basis-1/2">
-        <div class="mt-12 border rounded-md border-indigo-600">
+        <div class="border rounded-md border-indigo-600 p-4 space-y-2">
           <h1 class="text-3xl font-semibold text-green-600">Розрахунок</h1>
           <div class="w-36 h-240 rounded-lg border border-indigo-300 overflow-hidden">
             <img v-show="Object.keys(selectProduct).length" :src="selectProduct.image" alt="">
           </div>
           <h3 class="text-lg">{{ selectProduct.title }}</h3>
           <p>Кількість кольорів фантика: <span class="font-semibold">{{ countRadioColor }}</span></p>
-          <p>Формат фантика: {{  wrapperFormat.title }}</p>
+          <p>Формат фантика: {{  wrapperFormat.title }}, розміри: ({{ wrapperFormat.size }}) мм</p>
           <p>Тираж: {{ wrapperEdition.count }}</p>
-          <p>Знижка: {{ percentDiscount }}</p>
+          <!--<p>Знижка: {{ percentDiscount }}</p>
+          <p>{{ finalProductPrice }}</p>
           <p>Вартість фантика: {{ forma }}</p>
           <p>Вартість кліше: {{ clishe }}</p>
-          <p>Всього за фантик: {{ forma + clishe }}</p>
+          <p>Всього за фантик: {{ priceWrapperWithClishe }}</p>-->
           <p>Вага цукерки*: {{ averageCandyWaight }}г</p>
-          <p>Буде запаковано, кг: {{ wrapperEdition.count / ( 1000 / averageCandyWaight) }}</p>
+          <p>Цукерок на 1кг: {{ candiesForOneCilogram.toFixed(1) }} шт</p>
+          <p>Ціна 1 цукерки: {{ priceOneCandy.toFixed(2) }} грн</p>
+          <p>Ціна за 1 кг: {{ pricePerKilogram.toFixed() }} грн</p>
+          <p>Буде запаковано: {{ wellBePacked }} кг</p>
+          <h1 class="text-2xl font-medium">Вартість всього проекту: {{ finalPrice.toFixed() }} грн</h1>
         </div>
       </div>
     </div>
